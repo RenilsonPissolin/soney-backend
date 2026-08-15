@@ -1,0 +1,28 @@
+# render.yaml — Deploy automático no Render
+# 1. Faça push desse repositório pro GitHub
+# 2. Conecte no Render (dashboard.render.com)
+# 3. Escolha "Blueprint" e aponte pra esse arquivo
+
+services:
+  - type: web
+    name: soney-api
+    runtime: python
+    repo: https://github.com/seu-usuario/soney-backend
+    plan: free
+    region: ohio
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: SONEY_DB_PATH
+        value: /data/soney_data.db
+      - key: SONEY_ENABLE_AUTH
+        value: "false"
+      - key: SONEY_API_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.12.0
+    disk:
+      name: soney-data
+      mountPath: /data
+      sizeGB: 1
