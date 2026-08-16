@@ -58,7 +58,7 @@ class SyncRequest(BaseModel):
 class VoteRequest(BaseModel):
     userId: int
     userName: str
-    episodeId: int
+    episodeId: str
     choice: str = Field(..., pattern="^[AB]$")
 
 
