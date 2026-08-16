@@ -14,6 +14,7 @@ from typing import Optional
 STORY_TREE = {
     # ── EPISÓDIO 1 ──────────────────────────────────────────────
     "ep-1": {
+                "id": "ep-1",
         "number": 1,
         "title": "O Último Andar",
         "hook": "Ela aceitou o emprego dos sonhos. Mas o escritório no 13º andar guarda um segredo que ninguém nunca contou a ninguém...",
@@ -29,6 +30,7 @@ STORY_TREE = {
 
     # ── EPISÓDIO 2A (escolheu ABRIR) ────────────────────────────
     "ep-2a": {
+                "id": "ep-2a",
         "number": 2,
         "title": "O Segredo do 13º Andar",
         "hook": "Clara abriu a porta. O que ela viu lá dentro mudou tudo — arquivos, fotos, gravações. O Dr. Mendes sabe que ela sabe. E ela ouviu passos no corredor.",
@@ -44,6 +46,7 @@ STORY_TREE = {
 
     # ── EPISÓDIO 2B (escolheu FINGIR) ───────────────────────────
     "ep-2b": {
+                "id": "ep-2b",
         "number": 2,
         "title": "A Noite Inquieta",
         "hook": "Clara foi para casa, mas o rosto do Dr. Mendes não sai da cabeça dela. Ela viu algo estranho no olhar dele hoje. Algo que diz: 'eu sei que você viu'.",
@@ -59,6 +62,7 @@ STORY_TREE = {
 
     # ── EPISÓDIO 3AA (abriu + confrontou) ───────────────────────
     "ep-3aa": {
+                "id": "ep-3aa",
         "number": 3,
         "title": "O Confronto",
         "hook": "Clara entrou na sala do Dr. Mendes com os arquivos na mão. 'Eu sei de tudo.' O silêncio que se seguiu foi mais alto que qualquer grito. Então ele sorriu.",
@@ -74,6 +78,7 @@ STORY_TREE = {
 
     # ── EPISÓDIO 3AB (abriu + denunciou) ────────────────────────
     "ep-3ab": {
+                "id": "ep-3ab",
         "number": 3,
         "title": "A Denúncia Anônima",
         "hook": "Com os arquivos copiados no celular, Clara enviou tudo para o maior jornal da cidade. Agora não há como voltar atrás. Mas alguém está batendo na porta dela.",
@@ -89,6 +94,7 @@ STORY_TREE = {
 
     # ── EPISÓDIO 3BA (fingiu + voltou) ──────────────────────────
     "ep-3ba": {
+                "id": "ep-3ba",
         "number": 3,
         "title": "O Retorno",
         "hook": "Clara voltou ao escritório. O prédio está vazio — ou quase. Uma luz acesa no 13º andar. Ele ainda está lá. Ela precisa ver o que ele está fazendo.",
@@ -104,6 +110,7 @@ STORY_TREE = {
 
     # ── EPISÓDIO 3BB (fingiu + ligou) ───────────────────────────
     "ep-3bb": {
+                "id": "ep-3bb",
         "number": 3,
         "title": "A Jornalista",
         "hook": "Lúcia, a amiga jornalista, atendeu no segundo toque. 'Clara? Você não vai acreditar no que eu descobri sobre o Dr. Mendes. Ele já fez isso antes.'",
@@ -119,6 +126,7 @@ STORY_TREE = {
 
     # ── EPISÓDIO 4 (finais) ─────────────────────────────────────
     "ep-4aaa": {
+                "id": "ep-4aaa",
         "number": 4,
         "title": "A Gravação (Final A)",
         "hook": "Com tudo gravado no celular, Clara agora tem a confissão completa. O Dr. Mendes está algemado. Mas a verdade é mais sombria do que ela imaginava: não era só ele.",
@@ -132,6 +140,7 @@ STORY_TREE = {
         "final_title": "FINAL: A Verdade Vem à Tona"
     },
     "ep-4aab": {
+                "id": "ep-4aab",
         "number": 4,
         "title": "A Chegada da Polícia (Final B)",
         "hook": "A polícia chegou. Dr. Mendes tentou fugir, mas estava cercado. Clara assistiu de longe enquanto tudo desmoronava. Ela fez a escolha certa. Mas o preço... foi alto.",
@@ -142,6 +151,7 @@ STORY_TREE = {
         "final_title": "FINAL: A Justiça Prevalece"
     },
     "ep-4aba": {
+                "id": "ep-4aba",
         "number": 4,
         "title": "O Visitante (Final C)",
         "hook": "Era Lúcia na porta. 'Clara, a história já está viralizando. Mas você precisa sumir por uns dias. O Dr. Mendes tem amigos poderosos.' Clara pegou a bolsa e saiu. A fuga começou.",
@@ -152,6 +162,7 @@ STORY_TREE = {
         "final_title": "FINAL: A Fuga"
     },
     "ep-4abb": {
+                "id": "ep-4abb",
         "number": 4,
         "title": "A Janela (Final D)",
         "hook": "Clara fugiu pela janela de emergência. Lá embaixo, no estacionamento, uma viatura preta esperava. Ela não sabia se era polícia ou eles. Correu para o beco escuro e não olhou para trás.",
@@ -162,6 +173,7 @@ STORY_TREE = {
         "final_title": "FINAL: Na Escuridão"
     },
     "ep-4baa": {
+                "id": "ep-4baa",
         "number": 4,
         "title": "A Sombra (Final E)",
         "hook": "Clara seguiu o Dr. Mendes até um depósito abandonado. O que ela viu lá dentro era maior do que imaginava — uma operação inteira. Agora ela tem as provas definitivas.",
@@ -172,6 +184,7 @@ STORY_TREE = {
         "final_title": "FINAL: A Prova Final"
     },
     "ep-4bab": {
+                "id": "ep-4bab",
         "number": 4,
         "title": "A Sala Vazia (Final F)",
         "hook": "Na sala do Dr. Mendes, Clara encontrou um computador aberto. Os arquivos estavam todos lá. Mas quando ouviu o elevador chegando, ela percebeu: agora era tarde demais para sair.",
@@ -182,6 +195,7 @@ STORY_TREE = {
         "final_title": "FINAL: Encurralada"
     },
     "ep-4bba": {
+                "id": "ep-4bba",
         "number": 4,
         "title": "O Encontro (Final G)",
         "hook": "Lúcia e Clara se encontraram no café da esquina. A jornalista tinha um dossiê completo. 'Isso é maior que o Dr. Mendes, Clara. Muito maior. Você está preparada?'",
@@ -192,6 +206,7 @@ STORY_TREE = {
         "final_title": "FINAL: A Aliança"
     },
     "ep-4bbb": {
+                "id": "ep-4bbb",
         "number": 4,
         "title": "A Investigação (Final H)",
         "hook": "Lúcia investigou enquanto Clara esperava. Três dias depois, o telefone tocou. 'Clara... o Dr. Mendes desapareceu. E a polícia está procurando VOCÊ.'",
