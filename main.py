@@ -311,6 +311,14 @@ async def create_new_episode(req: EpisodeRequest):
 
 # ─── Votos ───────────────────────────────────────────────────────
 
+# Votos em memória para a story engine
+story_votes = {}  # {episode_id: {"A": count, "B": count}}
+
+def get_story_votes(episode_id):
+    if episode_id not in story_votes:
+        story_votes[episode_id] = {"A": 0, "B": 0}
+    return story_votes[episode_id]
+
 @app.post("/vote")
 async def submit_vote(req: VoteRequest):
     """
@@ -319,38 +327,36 @@ async def submit_vote(req: VoteRequest):
     # Garante que o jogador existe
     upsert_player(user_id=str(req.userId), user_name=req.userName)
     
-    # Registra o voto
-    result = register_vote(
-        user_id=str(req.userId),
-        episode_id=req.episodeId,
-        choice=req.choice
-    )
+    episode_id = str(req.episodeId)
+    choice = req.choice.upper()
     
-    if "error" in result:
-        raise HTTPException(status_code=409, detail=result["error"])
+    if choice not in ("A", "B"):
+        raise HTTPException(status_code=400, detail="Escolha inválida (use A ou B)")
+    
+    # Registra voto na story engine
+    votes = get_story_votes(episode_id)
+    votes[choice] += 1
+    
+    total = votes["A"] + votes["B"]
+    pct_a = round((votes["A"] / total * 100), 1) if total > 0 else 0
+    pct_b = round((votes["B"] / total * 100), 1) if total > 0 else 0
     
     # Notifica o agente
-    await process_vote(str(req.userId), str(req.episodeId), req.choice)
-    
-    # Retorna resultado atualizado
-    votes = get_episode_votes(req.episodeId)
-    total = votes["votes_a"] + votes["votes_b"]
-    percentage_a = round((votes["votes_a"] / total * 100), 1) if total > 0 else 0
-    percentage_b = round((votes["votes_b"] / total * 100), 1) if total > 0 else 0
+    await process_vote(str(req.userId), episode_id, choice)
     
     return {
         "success": True,
         "vote": {
             "user_id": str(req.userId),
-            "episode_id": req.episodeId,
-            "choice": req.choice
+            "episode_id": episode_id,
+            "choice": choice
         },
         "results": {
             "total_votes": total,
-            "option_a": votes["votes_a"],
-            "option_b": votes["votes_b"],
-            "percentage_a": percentage_a,
-            "percentage_b": percentage_b
+            "option_a": votes["A"],
+            "option_b": votes["B"],
+            "percentage_a": pct_a,
+            "percentage_b": pct_b
         }
     }
 
