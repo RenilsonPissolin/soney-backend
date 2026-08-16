@@ -26,6 +26,10 @@ from soney_bridge import (
     get_agent_status, sync_player_data, process_vote,
     get_next_episode, process_purchase, generate_drama_script
 )
+from story_engine import (
+    STORY_TREE, get_episode, get_first_episode, get_next_episode as story_next,
+    get_available_paths, get_stats as story_stats
+)
 
 # ─── Configuração ────────────────────────────────────────────────
 
@@ -221,38 +225,75 @@ async def get_player_info(user_id: str):
 
 @app.get("/episode/latest")
 async def latest_episode():
-    """Retorna o episódio mais recente do drama."""
-    episode = get_latest_episode()
+    """Retorna o episódio mais recente da história ramificada."""
+    episode = get_first_episode()
     if not episode:
-        # Se não tem episódio ainda, gera um placeholder
-        return {
-            "episode": {
-                "id": "ep-1",
-                "number": 1,
-                "title": "O Primeiro Episódio",
-                "hook": "O segredo que mudou tudo...",
-                "choices": [
-                    {"id": "A", "text": "Revelar a verdade"},
-                    {"id": "B", "text": "Guardar o segredo"}
-                ]
-            }
-        }
-    
-    votes = get_episode_votes(episode["id"])
-    return {
-        "episode": episode,
-        "votes": votes
-    }
+        return {"episode": {"id": "ep-1", "number": 1, "title": "Carregando...", "hook": "Aguarde...", "choices": []}}
+    return {"episode": episode}
 
 
 @app.get("/episode/next/{user_id}")
-async def next_episode(user_id: str, last_episode: int = 0):
+async def next_episode(user_id: str, last_episode: int = 0, last_choice: str = "A"):
     """
-    Retorna o próximo episódio para o jogador.
-    Pode ser personalizado com base nos votos anteriores.
+    Retorna o próximo episódio baseado na escolha anterior.
+    Usa a árvore de histórias ramificadas.
     """
-    episode = await get_next_episode(user_id, last_episode)
-    return episode
+    episode = get_first_episode()
+    
+    if last_episode == 1:
+        episode = story_next("ep-1", last_choice)
+    elif last_episode == 2:
+        # Determina qual ep-2 baseado no caminho
+        episode = story_next(f"ep-2{last_choice.lower()}", last_choice)
+    elif last_episode == 3:
+        episode = story_next(f"ep-3{last_choice.lower()}", last_choice)
+    
+    if not episode:
+        return {"episode": None, "message": "História concluída!", "is_final": True}
+    
+    return {"episode": episode, "is_final": episode.get("is_final", False)}
+
+
+# ─── Rotas da História Ramificada ────────────────────────────────
+
+@app.get("/story/episode/{episode_id}")
+async def story_get_episode(episode_id: str):
+    """Retorna um episódio específico da árvore de histórias."""
+    episode = get_episode(episode_id)
+    if not episode:
+        raise HTTPException(status_code=404, detail="Episódio não encontrado")
+    return {"episode": episode}
+
+
+@app.get("/story/paths")
+async def story_paths():
+    """Retorna todos os caminhos possíveis na história."""
+    paths = get_available_paths()
+    return {"paths": paths, "total": len(paths)}
+
+
+@app.get("/story/stats")
+async def story_statistics():
+    """Estatísticas da história ramificada."""
+    stats = story_stats()
+    return stats
+
+
+@app.post("/story/advance")
+async def story_advance(data: dict):
+    """
+    Avança a história baseado no voto do jogador.
+    Recebe: { "episode_id": "ep-1", "choice": "A" }
+    Retorna: o próximo episódio
+    """
+    episode_id = data.get("episode_id", "ep-1")
+    choice = data.get("choice", "A")
+    
+    next_ep = story_next(episode_id, choice)
+    if not next_ep:
+        return {"episode": None, "message": "Fim da história!", "is_final": True}
+    
+    return {"episode": next_ep, "is_final": next_ep.get("is_final", False)}
 
 
 @app.post("/episode")
