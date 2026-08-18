@@ -448,7 +448,55 @@ async def roblox_webhook(request: Request):
         raise HTTPException(status_code=400, detail=f"Ação desconhecida: {action}")
 
 
-# ─── Ponto de entrada ────────────────────────────────────────────
+# ─── Season Pass ────────────────────────────────────────────────
+
+SEASON_CONFIG = {
+    "current": 1,
+    "name": "O Último Andar",
+    "start_date": "2026-08-15",
+    "end_date": "2026-09-15",
+    "tiers": [
+        {"tier": 1, "votes": 1, "reward": 50, "name": "Iniciante"},
+        {"tier": 2, "votes": 3, "reward": 100, "name": "Espectador"},
+        {"tier": 3, "votes": 5, "reward": 200, "name": "Fã"},
+        {"tier": 4, "votes": 10, "reward": 350, "name": "Crítico"},
+        {"tier": 5, "votes": 15, "reward": 500, "name": "Votante"},
+        {"tier": 6, "votes": 25, "reward": 800, "name": "Influenciador"},
+        {"tier": 7, "votes": 40, "reward": 1200, "name": "Diretor"},
+        {"tier": 8, "votes": 60, "reward": 2000, "name": "Showrunner"},
+        {"tier": 9, "votes": 100, "reward": 5000, "name": "Lenda"},
+    ]
+}
+
+@app.get("/season")
+async def get_season():
+    """Retorna informações da temporada atual."""
+    return SEASON_CONFIG
+
+@app.get("/leaderboard")
+async def get_leaderboard():
+    """Retorna os top jogadores por coins."""
+    # TODO: conectar com banco de dados real
+    return {"message": "Leaderboard em breve"}
+
+@app.get("/shop")
+async def get_shop():
+    """Retorna os produtos disponíveis na loja."""
+    return {
+        "products": [
+            {"id": 3708120760, "name": "100 Coins", "robux": 5, "coins": 100},
+            {"id": 3708120761, "name": "500 Coins", "robux": 25, "coins": 500},
+            {"id": 3708120762, "name": "2000 Coins", "robux": 100, "coins": 2000},
+            {"id": 3708120763, "name": "10000 Coins", "robux": 500, "coins": 10000},
+        ],
+        "gamepasses": [
+            {"id": 3708120770, "name": "VIP Mensal", "robux": 50, "perks": ["Voto bônus diário", "50% mais coins"]},
+            {"id": 3708120771, "name": "Voto Duplo", "robux": 30, "perks": ["Voto vale por 2", "Resultado em dobro"]},
+            {"id": 3708120772, "name": "Episódios Secretos", "robux": 75, "perks": ["3 episódios exclusivos", "Final alternativo"]},
+            {"id": 3708120773, "name": "Pacote Completo", "robux": 150, "perks": ["Tudo acima + Nome nos créditos"]},
+        ],
+        "season_pass": {"robux": 200, "name": "Season Pass VIP"}
+    }
 
 if __name__ == "__main__":
     import uvicorn
