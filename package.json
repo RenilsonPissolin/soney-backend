@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@virtuals-protocol/game": "^0.1.14",
+    "axios": "^1.19.0",
+    "dotenv": "^17.4.2"
+  }
+}
